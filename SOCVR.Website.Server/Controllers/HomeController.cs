@@ -11,18 +11,18 @@ namespace SOCVR.Website.Server.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IContentPageProvider contentPageProvider;
+        private readonly IContentFileProvider contentFileProvider;
 
-        public HomeController(IContentPageProvider contentPageProviderService)
+        public HomeController(IContentFileProvider contentFileProviderService)
         {
-            contentPageProvider = contentPageProviderService;
+            contentFileProvider = contentFileProviderService;
         }
 
         public IActionResult Index(string path)
         {
             var model = new IndexViewModel();
 
-            if (!contentPageProvider.TryGetContentPageContents(path, out string content))
+            if (!contentFileProvider.TryGetContentFileContents(path, ContentFilePathType.MarkdownFile, out string content))
             {
                 return NotFound();
             }

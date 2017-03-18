@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace SOCVR.Website.Server.Services
 {
-    public interface IContentPageProvider
+    public interface IContentFileProvider
     {
-        bool TryGetContentPageContents(string path, out string contents);
+        bool TryGetContentFileContents(string path, ContentFilePathType type, out string fileContents);
     }
 }

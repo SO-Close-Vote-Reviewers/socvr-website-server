@@ -15,12 +15,13 @@ namespace SOCVR.Website.Server.Tests.Services
         {
             var config = new MockConfigurationOptions();
             var fileProvider = new MockFileProvider(true);
-            var contentPageProvider = new ContentPageProvider(config, fileProvider);
+            var translator = new MockContentFilePathTranslator();
+            var contentFileProvider = new ContentFileProvider(config, fileProvider, translator);
 
             var expectedSuccess = true;
             var expectedContents = MockFileProvider.FileContents;
             var expectedPath = Path.Combine(MockConfigurationOptions.ContentPath, "pages", "index.md");
-            var actualSuccess = contentPageProvider.TryGetContentPageContents(null, out string actualContents);
+            var actualSuccess = contentFileProvider.TryGetContentFileContents(null, ContentFilePathType.MarkdownFile, out string actualContents);
 
             Assert.Equal(expectedSuccess, actualSuccess);
             Assert.Equal(expectedContents, actualContents);

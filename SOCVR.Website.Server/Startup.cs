@@ -35,8 +35,10 @@ namespace SOCVR.Website.Server
             services.AddOptions();
             services.Configure<Configuration>(Configuration);
 
-            services.AddTransient<IContentPageProvider, ContentPageProvider>();
+            services.AddTransient<IContentFileProvider, ContentFileProvider>();
             services.AddTransient<IFileProvider, FileProvider>();
+            services.AddTransient<IContentFilePathTranslator, ContentFilePathTranslator>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
