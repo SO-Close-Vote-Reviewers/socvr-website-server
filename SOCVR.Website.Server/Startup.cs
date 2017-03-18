@@ -57,10 +57,16 @@ namespace SOCVR.Website.Server
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseStatusCodePagesWithReExecute("/Home/Errors/{0}");
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "error",
+                    template: "Home/Errors/{errorCode}",
+                    defaults: new { controller = "Home", action = "Errors" });
+
                 routes.MapRoute(
                     name: "default",
                     template: "{*path}",

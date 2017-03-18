@@ -39,5 +39,15 @@ namespace SOCVR.Website.Server.Controllers
         {
             return View();
         }
+
+        public IActionResult Errors(string errorCode)
+        {
+            if (errorCode == "404")
+            {
+                return View("NotFound");
+            }
+
+            return RedirectToAction("Error");
+        }
     }
 }
