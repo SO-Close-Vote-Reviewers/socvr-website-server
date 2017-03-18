@@ -4,23 +4,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using SOCVR.Website.Server.Services;
 
 namespace SOCVR.Website.Server.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly Configuration config;
+        private readonly IContentPageProvider contentPageProvider;
 
-        public HomeController(IOptions<Configuration> configOptions)
+        public HomeController(IContentPageProvider contentPageProviderService)
         {
-            config = configOptions.Value;
+            contentPageProvider = contentPageProviderService;
         }
 
         public IActionResult Index(string path)
         {
-            var pagePath = @"C:\code\socvr\socvr.org\socvr-website-content\pages\index.md";
-            var content = System.IO.File.ReadAllText(pagePath);
-            return View(model: content);
+            if (contentPageProvider.TryGetContentPageContents(path, out string content))
+            {
+                return View(model: content);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         public IActionResult Error()

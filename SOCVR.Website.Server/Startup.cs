@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using SOCVR.Website.Server.Services;
 
 namespace SOCVR.Website.Server
 {
@@ -33,6 +34,9 @@ namespace SOCVR.Website.Server
 
             services.AddOptions();
             services.Configure<Configuration>(Configuration);
+
+            services.AddTransient<IContentPageProvider, ContentPageProvider>();
+            services.AddTransient<IFileProvider, FileProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
