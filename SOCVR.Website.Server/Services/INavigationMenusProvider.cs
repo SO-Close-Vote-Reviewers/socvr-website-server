@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SOCVR.Website.Server.Services
 {
-    interface INavigationMenusProvider
+    public interface INavigationMenusProvider
     {
         IEnumerable<IEnumerable<NavLink>> GetNavigationMenus(string path);
     }

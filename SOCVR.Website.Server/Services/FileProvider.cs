@@ -15,7 +15,7 @@ namespace SOCVR.Website.Server.Services
 
         public string[] GetFileLines(string path)
         {
-            throw new NotImplementedException();
+            return File.ReadAllLines(path);
         }
 
         public string GetFileText(string path)

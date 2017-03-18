@@ -12,10 +12,12 @@ namespace SOCVR.Website.Server.Controllers
     public class HomeController : Controller
     {
         private readonly IContentFileProvider contentFileProvider;
+        private readonly INavigationMenusProvider navMenusProvider;
 
-        public HomeController(IContentFileProvider contentFileProviderService)
+        public HomeController(IContentFileProvider contentFileProviderService, INavigationMenusProvider navMenuProviderService)
         {
             contentFileProvider = contentFileProviderService;
+            navMenusProvider = navMenuProviderService;
         }
 
         public IActionResult Index(string path)
@@ -28,8 +30,7 @@ namespace SOCVR.Website.Server.Controllers
             }
 
             model.ContentMarkdown = content;
-
-            model.NavMenues = new List<List<NavLink>>();
+            model.NavMenues = navMenusProvider.GetNavigationMenus(path);
 
             return View(model);
         }
