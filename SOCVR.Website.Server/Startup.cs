@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace SOCVR.Website.Server
 {
@@ -29,6 +30,9 @@ namespace SOCVR.Website.Server
         {
             // Add framework services.
             services.AddMvc();
+
+            services.AddOptions();
+            services.Configure<Configuration>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +57,8 @@ namespace SOCVR.Website.Server
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{*path}",
+                    defaults: new { controller = "Home", action = "Index" });
             });
         }
     }

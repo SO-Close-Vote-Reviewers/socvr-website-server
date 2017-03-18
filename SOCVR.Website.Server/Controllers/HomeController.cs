@@ -3,28 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace SOCVR.Website.Server.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly Configuration config;
+
+        public HomeController(IOptions<Configuration> configOptions)
         {
-            return View();
+            config = configOptions.Value;
         }
 
-        public IActionResult About()
+        public IActionResult Index(string path)
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            var pagePath = @"C:\code\socvr\socvr.org\socvr-website-content\pages\index.md";
+            var content = System.IO.File.ReadAllText(pagePath);
+            return View(model: content);
         }
 
         public IActionResult Error()
