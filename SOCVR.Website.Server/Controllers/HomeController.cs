@@ -13,11 +13,13 @@ namespace SOCVR.Website.Server.Controllers
     {
         private readonly IContentFileProvider contentFileProvider;
         private readonly INavigationMenusProvider navMenusProvider;
+        private readonly IContentFilePathTranslator translator;
 
-        public HomeController(IContentFileProvider contentFileProviderService, INavigationMenusProvider navMenuProviderService)
+        public HomeController(IContentFileProvider contentFileProviderService, INavigationMenusProvider navMenuProviderService, IContentFilePathTranslator translatorService)
         {
             contentFileProvider = contentFileProviderService;
             navMenusProvider = navMenuProviderService;
+            translator = translatorService;
         }
 
         public IActionResult Index(string path)
@@ -33,6 +35,14 @@ namespace SOCVR.Website.Server.Controllers
             model.NavMenues = navMenusProvider.GetNavigationMenus(path);
 
             return View(model);
+        }
+
+        public IActionResult Css(string path)
+        {
+            var physicalPath = translator.TranslatePath(path, ContentFilePathType.StylesFile);
+            var bytes = System.IO.File.ReadAllBytes(physicalPath);
+
+            return File(bytes, "text/css");
         }
 
         public IActionResult Error()

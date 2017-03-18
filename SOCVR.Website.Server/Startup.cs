@@ -68,6 +68,11 @@ namespace SOCVR.Website.Server
                     defaults: new { controller = "Home", action = "Errors" });
 
                 routes.MapRoute(
+                    name: "css",
+                    template: "css/{path}",
+                    defaults: new { controller = "Home", action = "Css" });
+
+                routes.MapRoute(
                     name: "default",
                     template: "{*path}",
                     defaults: new { controller = "Home", action = "Index" });
