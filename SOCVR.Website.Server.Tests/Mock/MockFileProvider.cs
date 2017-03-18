@@ -29,5 +29,10 @@ namespace SOCVR.Website.Server.Tests.Mock
             GetFileTextParamValue = path;
             return FileContents;
         }
+
+        public string[] GetFileLines(string path)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

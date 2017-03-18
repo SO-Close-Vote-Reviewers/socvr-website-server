@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SOCVR.Website.Server.Services;
+using SOCVR.Website.Server.Models;
 
 namespace SOCVR.Website.Server.Controllers
 {
@@ -19,14 +20,18 @@ namespace SOCVR.Website.Server.Controllers
 
         public IActionResult Index(string path)
         {
-            if (contentPageProvider.TryGetContentPageContents(path, out string content))
-            {
-                return View(model: content);
-            }
-            else
+            var model = new IndexViewModel();
+
+            if (!contentPageProvider.TryGetContentPageContents(path, out string content))
             {
                 return NotFound();
             }
+
+            model.ContentMarkdown = content;
+
+            model.NavMenues = new List<List<NavLink>>();
+
+            return View(model);
         }
 
         public IActionResult Error()

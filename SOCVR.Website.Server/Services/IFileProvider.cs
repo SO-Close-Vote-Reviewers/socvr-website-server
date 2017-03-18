@@ -9,5 +9,6 @@ namespace SOCVR.Website.Server.Services
     {
         bool DoesFileExist(string path);
         string GetFileText(string path);
+        string[] GetFileLines(string path);
     }
 }

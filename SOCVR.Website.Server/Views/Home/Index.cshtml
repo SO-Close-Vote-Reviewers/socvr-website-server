@@ -1,7 +1,23 @@
-﻿@model string
+﻿@model SOCVR.Website.Server.Models.IndexViewModel
 
 @{ 
-    var renderedHtmlFromMarkdown = CommonMark.CommonMarkConverter.Convert(Model);
+    var renderedHtmlFromMarkdown = CommonMark.CommonMarkConverter.Convert(Model.ContentMarkdown);
 }
 
-@Html.Raw(renderedHtmlFromMarkdown)
+<div id="navigation">
+    @foreach(var navMenu in Model.NavMenues)
+    {
+        <nav>
+            @foreach (var navItem in navMenu)
+            {
+                <a class="nav-item" href="@navItem.Path">@navItem.Display</a>
+            }
+        </nav>
+    }
+</div>
+
+
+<div id="content">
+    @Html.Raw(renderedHtmlFromMarkdown)
+</div>
+
