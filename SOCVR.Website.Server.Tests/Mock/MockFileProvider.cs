@@ -7,32 +7,36 @@ namespace SOCVR.Website.Server.Tests.Mock
 {
     internal class MockFileProvider : IFileProvider
     {
-        private bool exists;
-
-        public const string FileContents = "this is the file contents";
         public string DoesFileExistParamValue { get; private set; }
         public string GetFileTextParamValue { get; private set; }
 
-        public MockFileProvider(bool doesExist)
+        private Dictionary<string, string> registeredFiles;
+
+        public MockFileProvider()
         {
-            exists = doesExist;
+            registeredFiles = new Dictionary<string, string>();
         }
 
         public bool DoesFileExist(string path)
         {
             DoesFileExistParamValue = path;
-            return exists;
+            return registeredFiles.ContainsKey(path);
         }
 
         public string GetFileText(string path)
         {
             GetFileTextParamValue = path;
-            return FileContents;
+            return registeredFiles[path];
         }
 
         public string[] GetFileLines(string path)
         {
-            throw new NotImplementedException();
+            return registeredFiles[path].Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+        }
+
+        public void RegisterFile(string path, string contents)
+        {
+            registeredFiles.Add(path, contents);
         }
     }
 }

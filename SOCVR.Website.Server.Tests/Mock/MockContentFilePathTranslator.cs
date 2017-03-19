@@ -9,7 +9,7 @@ namespace SOCVR.Website.Server.Tests.Mock
     {
         public string TranslatePath(string inputPath, ContentFilePathType type)
         {
-            throw new NotImplementedException();
+            return inputPath;
         }
     }
 }
