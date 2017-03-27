@@ -10,7 +10,7 @@ namespace SOCVR.Website.Server.Services
     {
         public IEnumerable<ContentFilePath> SplitContentFilePath(ContentFilePath path)
         {
-            var pathSections = ((string)(path ?? "")).Split('/');
+            var pathSections = (path?.Value ?? "").Split('/');
 
             for (int i = 0; i < pathSections.Length; i++)
             {
