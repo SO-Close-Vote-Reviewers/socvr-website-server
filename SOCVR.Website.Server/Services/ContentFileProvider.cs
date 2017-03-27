@@ -9,13 +9,11 @@ namespace SOCVR.Website.Server.Services
 {
     public class ContentFileProvider : IContentFileProvider
     {
-        private readonly Configuration config;
         private readonly IFileProvider fileProvider;
         private readonly IContentFilePathTranslator translator;
 
-        public ContentFileProvider(IOptions<Configuration> configOptions, IFileProvider fileProviderService, IContentFilePathTranslator translatorService)
+        public ContentFileProvider(IFileProvider fileProviderService, IContentFilePathTranslator translatorService)
         {
-            config = configOptions.Value;
             fileProvider = fileProviderService;
             translator = translatorService;
         }

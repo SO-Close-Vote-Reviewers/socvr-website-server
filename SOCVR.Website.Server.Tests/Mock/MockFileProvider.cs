@@ -35,7 +35,7 @@ namespace SOCVR.Website.Server.Tests.Mock
             return registeredFiles[path].Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
         }
 
-        public void RegisterFile(string path, string contents)
+        public void RegisterFile(ContentFilePath path, string contents)
         {
             registeredFiles.Add(path, contents);
         }

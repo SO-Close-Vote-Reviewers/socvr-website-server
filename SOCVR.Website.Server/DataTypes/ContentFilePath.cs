@@ -19,7 +19,7 @@ namespace SOCVR.Website.Server.DataTypes
             Value = path;
         }
 
-        public static implicit operator string(ContentFilePath path) => path.Value;
+        public static implicit operator string(ContentFilePath path) => path?.Value;
         public static implicit operator ContentFilePath(string path) => new ContentFilePath(path);
     }
 }
