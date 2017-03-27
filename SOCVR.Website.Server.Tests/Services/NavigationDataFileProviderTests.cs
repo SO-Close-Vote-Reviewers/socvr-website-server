@@ -12,34 +12,66 @@ namespace SOCVR.Website.Server.Tests.Services
     public class NavigationDataFileProviderTests
     {
         [Fact]
-        public void ReadNavigationFile_SingleLine()
+        public void ReadNavigationFile_SingleLine() => ReadNavigationFile(
+            CreateNavFileContents(NavFileLineType.Link),
+            new NavLink[]
+            {
+                new NavLink { Display = "Display-1", Path = "Link-1" },
+            });
+
+        [Fact]
+        public void ReadNavigationFile_EmptyFile() => ReadNavigationFile("", new NavLink[] { });
+
+        [Fact]
+        public void ReadNavigationFile_AllLineTypes() => ReadNavigationFile(
+            CreateNavFileContents(NavFileLineType.Empty, NavFileLineType.Commented, NavFileLineType.Link, NavFileLineType.Commented, NavFileLineType.Empty),
+            new NavLink[] 
+            {
+                new NavLink { Display = "Display-3", Path = "Link-3" },
+            });
+
+        private void ReadNavigationFile(string fileContents, params NavLink[] expectedNavLinks)
         {
+            var fileName = "my-file";
+
             var translator = new MockContentFilePathTranslator();
             var fileProvider = new MockFileProvider();
+            fileProvider.RegisterFile(fileName, fileContents);
 
             var navFileProvider = new NavigationDataFileProvider(translator, fileProvider);
 
-            fileProvider.RegisterFile("my-path", "DisplayName,LinkPath");
-
-            var actual = navFileProvider.ReadNavigationFile("my-path");
-            var expected = new[] { new NavLink { Display = "DisplayName", Path = "LinkPath" } };
-
-            Assert.True(expected.SequenceEqual(actual));
+            var actualNavLinks = navFileProvider.ReadNavigationFile(fileName);
+            Assert.True(expectedNavLinks.SequenceEqual(actualNavLinks));
         }
 
-        public void ReadNavigationFile_EmptyLines()
+        private string CreateNavFileContents(params NavFileLineType[] lineTypes)
         {
+            var builder = new StringBuilder();
 
+            foreach (var type in lineTypes.Select((x, i) => new { Value = x, LineNumber = i + 1 }))
+            {
+                switch (type.Value)
+                {
+                    case NavFileLineType.Commented:
+                        builder.AppendLine($"# Commented line {type.LineNumber}");
+                        break;
+                    case NavFileLineType.Empty:
+                        builder.AppendLine();
+                        break;
+                    case NavFileLineType.Link:
+                        builder.AppendLine($"Display-{type.LineNumber},Link-{type.LineNumber}");
+                        break;
+                }
+            }
+
+            return builder.ToString();
         }
 
-        public void ReadNavigationFile_CommentedLines()
+        private enum NavFileLineType
         {
-
-        }
-
-        public void ReadNavigationFile_AllLineTypes()
-        {
-
+            Empty,
+            Commented,
+            Link
         }
     }
 }
