@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using SOCVR.Website.Server.DataTypes;
 
 namespace SOCVR.Website.Server.Services
 {
@@ -16,26 +17,26 @@ namespace SOCVR.Website.Server.Services
             config = configOptions.Value;
         }
 
-        public string TranslatePath(string inputPath, ContentFilePathType type)
+        public PhysicalFilePath TranslatePath(ContentFilePath path, ContentFilePathType type)
         {
             switch (type)
             {
                 case ContentFilePathType.MarkdownFile:
-                    return TranslatePath_MarkdownFile(inputPath);
+                    return TranslatePath_MarkdownFile(path);
                 case ContentFilePathType.NavigationDataFile:
-                    return TranslatePath_NavigationDataFile(inputPath);
+                    return TranslatePath_NavigationDataFile(path);
                 case ContentFilePathType.StylesFile:
-                    return TranslatePath_StylesFile(inputPath);
+                    return TranslatePath_StylesFile(path);
                 default:
                     throw new ArgumentException("Unknown content file path type");
             }
         }
 
-        private string TranslatePath_MarkdownFile(string inputPath)
+        private string TranslatePath_MarkdownFile(ContentFilePath path)
         {
-            var inputPathWithExtension = string.IsNullOrWhiteSpace(inputPath)
+            var inputPathWithExtension = string.IsNullOrWhiteSpace(path)
                 ? config.DefaultMarkdownFileName
-                : inputPath + ".md";
+                : path + ".md";
 
             // input paths will only contain "/", not "\".
             inputPathWithExtension = inputPathWithExtension.Replace('/', Path.DirectorySeparatorChar);
@@ -45,12 +46,12 @@ namespace SOCVR.Website.Server.Services
             return fullPath;
         }
 
-        private string TranslatePath_NavigationDataFile(string inputPath)
+        private string TranslatePath_NavigationDataFile(ContentFilePath path)
         {
-            if (string.IsNullOrWhiteSpace(inputPath))
-                inputPath = config.DefaultMarkdownFileName;
+            if (string.IsNullOrWhiteSpace(path))
+                path = config.DefaultMarkdownFileName;
 
-            var pathSections = inputPath.Split('/');
+            var pathSections = path.Value.Split('/');
             pathSections[pathSections.Length - 1] = config.NavigationDataFileName;
 
             var fixedInputPath = string.Join(Path.DirectorySeparatorChar.ToString(), pathSections);

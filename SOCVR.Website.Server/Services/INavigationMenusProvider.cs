@@ -1,4 +1,5 @@
-﻿using SOCVR.Website.Server.Models;
+﻿using SOCVR.Website.Server.DataTypes;
+using SOCVR.Website.Server.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace SOCVR.Website.Server.Services
 {
     public interface INavigationMenusProvider
     {
-        IEnumerable<IEnumerable<NavLink>> GetNavigationMenus(string path);
+        IEnumerable<IEnumerable<NavLink>> GetNavigationMenus(ContentFilePath path);
     }
 }

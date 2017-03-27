@@ -3,14 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using SOCVR.Website.Server.DataTypes;
+using SOCVR.Website.Server.Models;
 
 namespace SOCVR.Website.Server.Tests.Mock
 {
-    class MockContentFilePathTranslator : IContentFilePathTranslator
+    class MockNavigationDataFileProvider : INavigationDataFileProvider
     {
-        public PhysicalFilePath TranslatePath(ContentFilePath path, ContentFilePathType type)
+        public IEnumerable<NavLink> ReadNavigationFile(ContentFilePath path)
         {
-            return path.Value;
+            throw new NotImplementedException();
         }
     }
 }

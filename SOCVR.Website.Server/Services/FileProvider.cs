@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SOCVR.Website.Server.DataTypes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,17 +9,17 @@ namespace SOCVR.Website.Server.Services
 {
     public class FileProvider : IFileProvider
     {
-        public bool DoesFileExist(string path)
+        public bool DoesFileExist(PhysicalFilePath path)
         {
             return File.Exists(path);
         }
 
-        public string[] GetFileLines(string path)
+        public string[] GetFileLines(PhysicalFilePath path)
         {
             return File.ReadAllLines(path);
         }
 
-        public string GetFileText(string path)
+        public string GetFileText(PhysicalFilePath path)
         {
             return File.ReadAllText(path);
         }

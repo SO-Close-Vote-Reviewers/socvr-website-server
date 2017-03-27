@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SOCVR.Website.Server.DataTypes;
 
 namespace SOCVR.Website.Server.Services
 {
@@ -19,7 +20,7 @@ namespace SOCVR.Website.Server.Services
             translator = translatorService;
         }
 
-        public bool TryGetContentFileContents(string path, ContentFilePathType type, out string fileContents)
+        public bool TryGetContentFileContents(ContentFilePath path, ContentFilePathType type, out string fileContents)
         {
             fileContents = null;
             var physicalPath = translator.TranslatePath(path, type);

@@ -9,5 +9,6 @@ namespace SOCVR.Website.Server.Models
     {
         public string ContentMarkdown { get; set; }
         public IEnumerable<IEnumerable<NavLink>> NavMenues { get; set; }
+        public string PageTitle { get; set; }
     }
 }

@@ -14,13 +14,13 @@ namespace SOCVR.Website.Server.Tests.Services
         [Fact]
         public void GetNavigationMenus_Root()
         {
-            var config = new MockConfigurationOptions();
+            var navFileProvider = new MockNavigationDataFileProvider();
+            var splitter = new MockContentFilePathSplitter();
             var fileProvider = new MockFileProvider();
-            var translator = new MockContentFilePathTranslator();
 
             fileProvider.RegisterFile("my-page", MakeNavFileContents("Root", 2));
 
-            var navMenuProvider = new NavigationMenusProvider(fileProvider, config, translator);
+            var navMenuProvider = new NavigationMenusProvider(navFileProvider, splitter);
 
             var inputPath = "my-page";
             var actual = navMenuProvider.GetNavigationMenus(inputPath).ToList();
@@ -43,14 +43,14 @@ namespace SOCVR.Website.Server.Tests.Services
         [Fact]
         public void GetNavigationMenus_OneSubfolder()
         {
-            var config = new MockConfigurationOptions();
+            var navFileProvider = new MockNavigationDataFileProvider();
+            var splitter = new MockContentFilePathSplitter();
             var fileProvider = new MockFileProvider();
-            var translator = new MockContentFilePathTranslator();
 
             fileProvider.RegisterFile("level-1", MakeNavFileContents("Level-1", 3));
             fileProvider.RegisterFile("level-1/level-2", MakeNavFileContents("Level-2", 2));
 
-            var navMenuProvider = new NavigationMenusProvider(fileProvider, config, translator);
+            var navMenuProvider = new NavigationMenusProvider(navFileProvider, splitter);
 
             var inputPath = "level-1/level-2";
             var actualMenus = navMenuProvider.GetNavigationMenus(inputPath).ToList();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SOCVR.Website.Server.DataTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace SOCVR.Website.Server.Services
         /// <param name="inputPath"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        string TranslatePath(string inputPath, ContentFilePathType type);
+        PhysicalFilePath TranslatePath(ContentFilePath path, ContentFilePathType type);
     }
 
     public enum ContentFilePathType

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace SOCVR.Website.Server.Services
 {
-    public interface IFileProvider
+    public interface IContentFilePathSplitter
     {
-        bool DoesFileExist(PhysicalFilePath path);
-        string GetFileText(PhysicalFilePath path);
-        string[] GetFileLines(PhysicalFilePath path);
+        IEnumerable<ContentFilePath> SplitContentFilePath(ContentFilePath path);
     }
 }
