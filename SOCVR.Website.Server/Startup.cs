@@ -50,7 +50,8 @@ namespace SOCVR.Website.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            var loggingLevel = Configuration.GetValue<LogLevel>("LoggingLevel");
+            loggerFactory.AddConsole(loggingLevel);
             loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
