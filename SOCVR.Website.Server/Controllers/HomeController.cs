@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using SOCVR.Website.Server.Services;
 using SOCVR.Website.Server.Models;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace SOCVR.Website.Server.Controllers
 {
@@ -18,16 +19,18 @@ namespace SOCVR.Website.Server.Controllers
         //private readonly IContentPageTitleProvider contentPageTitleProvider;
         private readonly IGitManager gitManager;
         private readonly ILogger<HomeController> logger;
+        private readonly IGitPullCache gitCache;
 
         public HomeController(IContentFileProvider contentFileProviderService, INavigationMenusProvider navMenuProviderService, 
-            IContentFilePathTranslator translatorService, IGitManager gitManagerService, ILogger<HomeController> logger)
+            IContentFilePathTranslator translatorService, IGitManager gitManagerService, ILogger<HomeController> loggerService, IGitPullCache gitCacheService)
         {
             contentFileProvider = contentFileProviderService;
             navMenusProvider = navMenuProviderService;
             translator = translatorService;
             //contentPageTitleProvider = contentPageTitleProviderService;
             gitManager = gitManagerService;
-            this.logger = logger;
+            logger = loggerService;
+            gitCache = gitCacheService;
         }
 
         public IActionResult Index(string path)
@@ -39,8 +42,11 @@ namespace SOCVR.Website.Server.Controllers
                 gitManager.Clone();
             }
 
-            logger.LogDebug("pulling");
-            gitManager.Pull();
+            if (gitCache.ShouldPullRepository())
+            {
+                logger.LogDebug("pulling");
+                gitManager.Pull();
+            }
 
             var model = new IndexViewModel();
 

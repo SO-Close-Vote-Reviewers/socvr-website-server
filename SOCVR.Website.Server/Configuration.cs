@@ -14,5 +14,6 @@ namespace SOCVR.Website.Server
         public string GitRepositoryUrl { get; set; }
         public string GitBranch { get; set; }
         public string CloneDir { get; set; }
+        public int GitPullCacheSeconds { get; set; }
     }
 }

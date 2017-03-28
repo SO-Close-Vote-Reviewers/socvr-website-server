@@ -45,6 +45,9 @@ namespace SOCVR.Website.Server
             services.AddTransient<INavigationMenusProvider, NavigationMenusProvider>();
             services.AddTransient<IGitManager, GitManager>();
             services.AddTransient<IProcessRunner, ProcessRunner>();
+            services.AddSingleton<IGitPullCache, GitPullCache>();
+
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
