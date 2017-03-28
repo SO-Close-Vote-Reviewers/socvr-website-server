@@ -56,7 +56,7 @@ namespace SOCVR.Website.Server.Tests.Services
         {
             var expectedPathSections = new List<string>()
             {
-                MockConfigurationOptions.ContentPath,
+                MockConfigurationOptions.CloneDir,
                 repoRootFolder
             };
 

@@ -21,6 +21,9 @@ namespace SOCVR.Website.Server.Services
 
         public void Clone()
         {
+            if (!Directory.Exists(config.CloneDir))
+                Directory.CreateDirectory(config.CloneDir);
+
             processRunner.Run("git", $"clone --branch {config.GitBranch} {config.GitRepositoryUrl} {config.CloneDir}");
         }
 

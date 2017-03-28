@@ -41,7 +41,7 @@ namespace SOCVR.Website.Server.Services
             // input paths will only contain "/", not "\".
             inputPathWithExtension = inputPathWithExtension.Replace('/', Path.DirectorySeparatorChar);
 
-            var fullPath = Path.Combine(config.UserContentFolderPath, config.ContentPageFilesFolder, inputPathWithExtension);
+            var fullPath = Path.Combine(config.CloneDir, config.ContentPageFilesFolder, inputPathWithExtension);
 
             return fullPath;
         }
@@ -56,14 +56,14 @@ namespace SOCVR.Website.Server.Services
 
             var fixedInputPath = string.Join(Path.DirectorySeparatorChar.ToString(), pathSections);
 
-            var fullPath = Path.Combine(config.UserContentFolderPath, config.ContentPageFilesFolder, fixedInputPath);
+            var fullPath = Path.Combine(config.CloneDir, config.ContentPageFilesFolder, fixedInputPath);
             return fullPath;
         }
 
         private string TranslatePath_StylesFile(string inputPath)
         {
             var fixedInputPath = inputPath.Replace('/', Path.DirectorySeparatorChar);
-            var fullPath = Path.Combine(config.UserContentFolderPath, config.StyleFilesFolder, fixedInputPath);
+            var fullPath = Path.Combine(config.CloneDir, config.StyleFilesFolder, fixedInputPath);
             return fullPath;
         }
     }
