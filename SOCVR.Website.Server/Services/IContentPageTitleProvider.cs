@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace SOCVR.Website.Server.Services
 {
-    public interface IFileProvider
+    public interface IContentPageTitleProvider
     {
-        bool DoesFileExist(PhysicalFilePath path);
-        string GetFileText(PhysicalFilePath path);
-        string[] GetFileLines(PhysicalFilePath path);
+        string GetContentPageTitle(ContentFilePath path);
     }
 }

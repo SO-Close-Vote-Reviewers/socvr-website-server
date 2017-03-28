@@ -7,10 +7,12 @@ namespace SOCVR.Website.Server
 {
     public class Configuration
     {
-        public string UserContentFolderPath { get; set; }
         public string DefaultMarkdownFileName { get; set; }
         public string ContentPageFilesFolder { get; set; }
         public string StyleFilesFolder { get; set; }
         public string NavigationDataFileName { get; set; }
+        public string GitRepositoryUrl { get; set; }
+        public string GitBranch { get; set; }
+        public string CloneDir { get; set; }
     }
 }

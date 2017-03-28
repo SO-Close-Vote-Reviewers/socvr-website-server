@@ -7,7 +7,7 @@ namespace SOCVR.Website.Server.Tests.Mock
 {
     internal class MockConfigurationOptions : IOptions<Configuration>
     {
-        public const string ContentPath = "content-path";
+        public const string CloneDir = "git-dir";
         public const string ContentFilesFolder = "pages";
         public const string StyleFilesFolder = "styles";
         public const string DefaultMarkdownFile = "index.md";
@@ -15,11 +15,12 @@ namespace SOCVR.Website.Server.Tests.Mock
 
         public Configuration Value => new Configuration
         {
-            UserContentFolderPath = ContentPath,
             ContentPageFilesFolder = ContentFilesFolder,
             DefaultMarkdownFileName = DefaultMarkdownFile,
             StyleFilesFolder = StyleFilesFolder,
-            NavigationDataFileName = NavigationDataFileName
+            NavigationDataFileName = NavigationDataFileName,
+            CloneDir = CloneDir,
+            GitBranch = "master"
         };
     }
 }

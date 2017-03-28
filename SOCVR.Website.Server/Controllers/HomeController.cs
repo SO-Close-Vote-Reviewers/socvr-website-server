@@ -14,16 +14,28 @@ namespace SOCVR.Website.Server.Controllers
         private readonly IContentFileProvider contentFileProvider;
         private readonly INavigationMenusProvider navMenusProvider;
         private readonly IContentFilePathTranslator translator;
+        //private readonly IContentPageTitleProvider contentPageTitleProvider;
+        private readonly IGitManager gitManager;
 
-        public HomeController(IContentFileProvider contentFileProviderService, INavigationMenusProvider navMenuProviderService, IContentFilePathTranslator translatorService)
+        public HomeController(IContentFileProvider contentFileProviderService, INavigationMenusProvider navMenuProviderService, 
+            IContentFilePathTranslator translatorService, IGitManager gitManagerService)
         {
             contentFileProvider = contentFileProviderService;
             navMenusProvider = navMenuProviderService;
             translator = translatorService;
+            //contentPageTitleProvider = contentPageTitleProviderService;
+            gitManager = gitManagerService;
         }
 
         public IActionResult Index(string path)
         {
+            if (!gitManager.DoesRepositoryExist())
+            {
+                gitManager.Clone();
+            }
+
+            gitManager.Pull();
+
             var model = new IndexViewModel();
 
             if (!contentFileProvider.TryGetContentFileContents(path, ContentFilePathType.MarkdownFile, out string content))
@@ -33,6 +45,7 @@ namespace SOCVR.Website.Server.Controllers
 
             model.ContentMarkdown = content;
             model.NavMenues = navMenusProvider.GetNavigationMenus(path);
+            //model.PageTitle = contentPageTitleProvider.GetContentPageTitle(path);
 
             return View(model);
         }

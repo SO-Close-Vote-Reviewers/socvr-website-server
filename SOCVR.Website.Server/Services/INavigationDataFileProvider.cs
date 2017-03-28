@@ -1,4 +1,5 @@
 ﻿using SOCVR.Website.Server.DataTypes;
+using SOCVR.Website.Server.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace SOCVR.Website.Server.Services
 {
-    public interface IFileProvider
+    public interface INavigationDataFileProvider
     {
-        bool DoesFileExist(PhysicalFilePath path);
-        string GetFileText(PhysicalFilePath path);
-        string[] GetFileLines(PhysicalFilePath path);
+        IEnumerable<NavLink> ReadNavigationFile(ContentFilePath path);
     }
 }

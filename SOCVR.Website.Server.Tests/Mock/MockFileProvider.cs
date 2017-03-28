@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SOCVR.Website.Server.DataTypes;
 
 namespace SOCVR.Website.Server.Tests.Mock
 {
@@ -17,24 +18,24 @@ namespace SOCVR.Website.Server.Tests.Mock
             registeredFiles = new Dictionary<string, string>();
         }
 
-        public bool DoesFileExist(string path)
+        public bool DoesFileExist(PhysicalFilePath path)
         {
             DoesFileExistParamValue = path;
             return registeredFiles.ContainsKey(path);
         }
 
-        public string GetFileText(string path)
+        public string GetFileText(PhysicalFilePath path)
         {
             GetFileTextParamValue = path;
             return registeredFiles[path];
         }
 
-        public string[] GetFileLines(string path)
+        public string[] GetFileLines(PhysicalFilePath path)
         {
             return registeredFiles[path].Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
         }
 
-        public void RegisterFile(string path, string contents)
+        public void RegisterFile(ContentFilePath path, string contents)
         {
             registeredFiles.Add(path, contents);
         }
