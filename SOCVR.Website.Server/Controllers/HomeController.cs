@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SOCVR.Website.Server.Services;
 using SOCVR.Website.Server.Models;
+using Microsoft.Extensions.Logging;
 
 namespace SOCVR.Website.Server.Controllers
 {
@@ -16,30 +17,36 @@ namespace SOCVR.Website.Server.Controllers
         private readonly IContentFilePathTranslator translator;
         //private readonly IContentPageTitleProvider contentPageTitleProvider;
         private readonly IGitManager gitManager;
+        private readonly ILogger<HomeController> logger;
 
         public HomeController(IContentFileProvider contentFileProviderService, INavigationMenusProvider navMenuProviderService, 
-            IContentFilePathTranslator translatorService, IGitManager gitManagerService)
+            IContentFilePathTranslator translatorService, IGitManager gitManagerService, ILogger<HomeController> logger)
         {
             contentFileProvider = contentFileProviderService;
             navMenusProvider = navMenuProviderService;
             translator = translatorService;
             //contentPageTitleProvider = contentPageTitleProviderService;
             gitManager = gitManagerService;
+            this.logger = logger;
         }
 
         public IActionResult Index(string path)
         {
+            logger.LogInformation($"Start of index action, path '{path}'");
             if (!gitManager.DoesRepositoryExist())
             {
+                logger.LogDebug("Repo does not exist");
                 gitManager.Clone();
             }
 
+            logger.LogDebug("pulling");
             gitManager.Pull();
 
             var model = new IndexViewModel();
 
             if (!contentFileProvider.TryGetContentFileContents(path, ContentFilePathType.MarkdownFile, out string content))
             {
+                logger.LogInformation($"markdown file '{path}' was not found");
                 return NotFound();
             }
 
