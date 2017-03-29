@@ -12,6 +12,9 @@ namespace SOCVR.Website.Server.Tests.Mock
         public const string StyleFilesFolder = "styles";
         public const string DefaultMarkdownFile = "index.md";
         public const string NavigationDataFileName = "_nav.csv";
+        public const string GitBranch = "master";
+        public const int GitPullCacheSeconds = 60;
+        public const string GitRepositoryUrl = "http://example.com/my-repo/.git";
 
         public Configuration Value => new Configuration
         {
@@ -20,7 +23,9 @@ namespace SOCVR.Website.Server.Tests.Mock
             StyleFilesFolder = StyleFilesFolder,
             NavigationDataFileName = NavigationDataFileName,
             CloneDir = CloneDir,
-            GitBranch = "master"
+            GitBranch = GitBranch,
+            GitPullCacheSeconds = GitPullCacheSeconds,
+            GitRepositoryUrl = GitRepositoryUrl
         };
     }
 }

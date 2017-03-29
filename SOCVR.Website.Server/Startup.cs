@@ -45,6 +45,8 @@ namespace SOCVR.Website.Server
             services.AddTransient<INavigationMenusProvider, NavigationMenusProvider>();
             services.AddTransient<IGitManager, GitManager>();
             services.AddTransient<IProcessRunner, ProcessRunner>();
+            services.AddTransient<IDirectoryProvider, DirectoryProvider>();
+
             services.AddSingleton<IGitPullCache, GitPullCache>();
 
             services.AddMemoryCache();

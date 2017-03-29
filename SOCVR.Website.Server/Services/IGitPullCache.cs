@@ -8,5 +8,6 @@ namespace SOCVR.Website.Server.Services
     public interface IGitPullCache
     {
         bool ShouldPullRepository();
+        void Invalidate();
     }
 }

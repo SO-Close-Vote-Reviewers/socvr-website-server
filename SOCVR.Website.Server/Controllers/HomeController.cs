@@ -47,7 +47,17 @@ namespace SOCVR.Website.Server.Controllers
             if (gitCache.ShouldPullRepository())
             {
                 logger.LogDebug("pulling");
-                gitManager.Pull();
+
+                try
+                {
+                    gitManager.Pull();
+                }
+                catch
+                {
+                    //if the pull fails, the next load needs to try pulling again
+                    gitCache.Invalidate();
+                    throw;
+                }
             }
 
             var model = new IndexViewModel();

@@ -14,30 +14,34 @@ namespace SOCVR.Website.Server.Services
         private readonly IProcessRunner processRunner;
         private readonly Configuration config;
         private readonly ILogger<GitManager> logger;
+        private readonly IDirectoryProvider dir;
 
-        public GitManager(IProcessRunner processRunnerService, IOptions<Configuration> configOptions, ILogger<GitManager> loggerService)
+        public GitManager(IProcessRunner processRunnerService, IOptions<Configuration> configOptions, ILogger<GitManager> loggerService, IDirectoryProvider directoryProviderService)
         {
             processRunner = processRunnerService;
             config = configOptions.Value;
             logger = loggerService;
+            dir = directoryProviderService;
         }
 
         public void Clone()
         {
-            if (!Directory.Exists(config.CloneDir))
+            if (!dir.DoesDirectoryExist(config.CloneDir))
             {
                 logger.LogDebug("Creating clone dir before cloning");
-                Directory.CreateDirectory(config.CloneDir);
+                dir.CreateDirectory(config.CloneDir);
             }
 
             var args = $"clone --branch {config.GitBranch} {config.GitRepositoryUrl} {config.CloneDir}";
             logger.LogDebug($"Cloning, args: {args}");
-            processRunner.Run("git", $"clone --branch {config.GitBranch} {config.GitRepositoryUrl} {config.CloneDir}");
+
+            if (processRunner.Run("git", args) != 0)
+                throw new InvalidOperationException("Git command did not complete successfully");
         }
 
         public bool DoesRepositoryExist()
         {
-            if (!Directory.Exists(config.CloneDir))
+            if (!dir.DoesDirectoryExist(config.CloneDir))
             {
                 logger.LogDebug("Repo dir does not exist");
                 return false;
@@ -54,7 +58,9 @@ namespace SOCVR.Website.Server.Services
             //and the save repo will be thrown away with it.
 
             logger.LogDebug($"Pulling {config.GitBranch}");
-            processRunner.Run("git", $"pull origin {config.GitBranch}", config.CloneDir);
+
+            if (processRunner.Run("git", $"pull origin {config.GitBranch}", config.CloneDir) != 0)
+                throw new InvalidOperationException("Git command did not complete successfully");
         }
     }
 }

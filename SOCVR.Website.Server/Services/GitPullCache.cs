@@ -38,5 +38,10 @@ namespace SOCVR.Website.Server.Services
             // there was a cache value
             return false;
         }
+
+        public void Invalidate()
+        {
+            cache.Remove(CacheKey);
+        }
     }
 }
