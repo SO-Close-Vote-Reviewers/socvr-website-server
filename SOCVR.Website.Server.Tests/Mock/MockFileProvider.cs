@@ -39,5 +39,10 @@ namespace SOCVR.Website.Server.Tests.Mock
         {
             registeredFiles.Add(path, contents);
         }
+
+        public byte[] GetFileBytes(PhysicalFilePath path)
+        {
+            return new byte[] { 1, 2, 3 };
+        }
     }
 }

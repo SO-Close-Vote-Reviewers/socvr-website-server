@@ -18,15 +18,26 @@ namespace SOCVR.Website.Server.Services
             translator = translatorService;
         }
 
+        public bool TryGetContentFileBytes(ContentFilePath path, ContentFilePathType type, out byte[] fileBytes)
+        {
+            return TryGetFile(path, type, out fileBytes, p => fileProvider.GetFileBytes(p));
+        }
+
         public bool TryGetContentFileContents(ContentFilePath path, ContentFilePathType type, out string fileContents)
         {
-            fileContents = null;
+            return TryGetFile(path, type, out fileContents, p => fileProvider.GetFileText(p));
+        }
+
+        private bool TryGetFile<T>(ContentFilePath path, ContentFilePathType type, out T result, Func<PhysicalFilePath, T> fileExtractionMethod)
+        {
+            result = default(T);
+
             var physicalPath = translator.TranslatePath(path, type);
 
             var fileExists = fileProvider.DoesFileExist(physicalPath);
 
             if (fileExists)
-                fileContents = fileProvider.GetFileText(physicalPath);
+                result = fileExtractionMethod(physicalPath);
 
             return fileExists;
         }

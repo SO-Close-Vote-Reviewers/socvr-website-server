@@ -11,5 +11,6 @@ namespace SOCVR.Website.Server.Services
         bool DoesFileExist(PhysicalFilePath path);
         string GetFileText(PhysicalFilePath path);
         string[] GetFileLines(PhysicalFilePath path);
+        byte[] GetFileBytes(PhysicalFilePath path);
     }
 }

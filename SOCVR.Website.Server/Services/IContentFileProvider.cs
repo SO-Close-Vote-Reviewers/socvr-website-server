@@ -9,5 +9,7 @@ namespace SOCVR.Website.Server.Services
     public interface IContentFileProvider
     {
         bool TryGetContentFileContents(ContentFilePath path, ContentFilePathType type, out string fileContents);
+
+        bool TryGetContentFileBytes(ContentFilePath path, ContentFilePathType type, out byte[] fileBytes);
     }
 }

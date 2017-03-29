@@ -14,6 +14,11 @@ namespace SOCVR.Website.Server.Services
             return File.Exists(path);
         }
 
+        public byte[] GetFileBytes(PhysicalFilePath path)
+        {
+            return File.ReadAllBytes(path);
+        }
+
         public string[] GetFileLines(PhysicalFilePath path)
         {
             return File.ReadAllLines(path);

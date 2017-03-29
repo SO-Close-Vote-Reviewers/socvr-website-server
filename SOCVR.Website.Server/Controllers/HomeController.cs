@@ -54,7 +54,7 @@ namespace SOCVR.Website.Server.Controllers
 
             if (!contentFileProvider.TryGetContentFileContents(path, ContentFilePathType.MarkdownFile, out string content))
             {
-                logger.LogInformation($"markdown file '{path}' was not found");
+                logger.LogWarning($"markdown file '{path}' was not found");
                 return NotFound();
             }
 
@@ -67,10 +67,13 @@ namespace SOCVR.Website.Server.Controllers
 
         public IActionResult Css(string path)
         {
-            var physicalPath = translator.TranslatePath(path, ContentFilePathType.StylesFile);
-            var bytes = System.IO.File.ReadAllBytes(physicalPath);
+            if (!contentFileProvider.TryGetContentFileBytes(path, ContentFilePathType.StylesFile, out byte[] fileBytes))
+            {
+                logger.LogWarning($"styles file '{path}' was not found");
+                return NotFound();
+            }
 
-            return File(bytes, "text/css");
+            return File(fileBytes, "text/css");
         }
 
         public IActionResult Error()
