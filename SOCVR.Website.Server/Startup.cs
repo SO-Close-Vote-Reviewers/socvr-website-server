@@ -32,6 +32,7 @@ namespace SOCVR.Website.Server
         {
             // Add framework services.
             services.AddMvc();
+            services.AddResponseCompression();
 
             services.AddOptions();
             services.Configure<Configuration>(Configuration);
@@ -69,6 +70,7 @@ namespace SOCVR.Website.Server
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseResponseCompression();
             app.UseStatusCodePagesWithReExecute("/Home/Errors/{0}");
             app.UseStaticFiles();
 
