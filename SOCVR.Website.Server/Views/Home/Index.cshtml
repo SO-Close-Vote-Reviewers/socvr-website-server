@@ -1,11 +1,16 @@
 ﻿@model SOCVR.Website.Server.Models.IndexViewModel
 
-@{ 
+@{
+    if (!string.IsNullOrWhiteSpace(Model.PageTitle))
+    {
+        ViewData["Title"] = Model.PageTitle;
+    }
+
     var renderedHtmlFromMarkdown = CommonMark.CommonMarkConverter.Convert(Model.ContentMarkdown);
 }
 
 <div id="navigation">
-    @foreach(var navMenu in Model.NavMenues)
+    @foreach (var navMenu in Model.NavMenues)
     {
         <nav>
             @foreach (var navItem in navMenu)

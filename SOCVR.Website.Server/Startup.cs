@@ -39,7 +39,7 @@ namespace SOCVR.Website.Server
             services.AddTransient<IContentFilePathSplitter, ContentFilePathSplitter>();
             services.AddTransient<IContentFilePathTranslator, ContentFilePathTranslator>();
             services.AddTransient<IContentFileProvider, ContentFileProvider>();
-            
+            services.AddTransient<IContentPageTitleProvider, ContentPageTitleProvider>();
             services.AddTransient<IFileProvider, FileProvider>();
             services.AddTransient<INavigationDataFileProvider, NavigationDataFileProvider>();
             services.AddTransient<INavigationMenusProvider, NavigationMenusProvider>();

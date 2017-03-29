@@ -10,7 +10,7 @@ namespace SOCVR.Website.Server.Tests.Mock
     {
         public PhysicalFilePath TranslatePath(ContentFilePath path, ContentFilePathType type)
         {
-            return path.Value;
+            return path?.Value ?? "";
         }
     }
 }

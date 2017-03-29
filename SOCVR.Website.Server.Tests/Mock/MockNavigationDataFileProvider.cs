@@ -10,21 +10,27 @@ namespace SOCVR.Website.Server.Tests.Mock
 {
     class MockNavigationDataFileProvider : INavigationDataFileProvider
     {
-        private int recordsInFile;
+        private List<NavLink> entriesInFile;
 
         public MockNavigationDataFileProvider(int records)
         {
-            recordsInFile = records;
-        }
-
-        public IEnumerable<NavLink> ReadNavigationFile(ContentFilePath path)
-        {
-            return Enumerable.Range(1, recordsInFile)
+            entriesInFile = Enumerable.Range(1, records)
                 .Select(x => new NavLink
                 {
                     Display = $"Display-{x}",
                     Path = $"Path-{x}"
-                });
+                })
+                .ToList();
+        }
+
+        public MockNavigationDataFileProvider(params NavLink[] entries)
+        {
+            entriesInFile = entries.ToList();
+        }
+
+        public IEnumerable<NavLink> ReadNavigationFile(ContentFilePath path)
+        {
+            return entriesInFile;
         }
     }
 }

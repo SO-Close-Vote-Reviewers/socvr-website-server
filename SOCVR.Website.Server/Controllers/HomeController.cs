@@ -20,17 +20,19 @@ namespace SOCVR.Website.Server.Controllers
         private readonly IGitManager gitManager;
         private readonly ILogger<HomeController> logger;
         private readonly IGitPullCache gitCache;
+        private readonly IContentPageTitleProvider contentPageTitleProvider;
 
         public HomeController(IContentFileProvider contentFileProviderService, INavigationMenusProvider navMenuProviderService, 
-            IContentFilePathTranslator translatorService, IGitManager gitManagerService, ILogger<HomeController> loggerService, IGitPullCache gitCacheService)
+            IContentFilePathTranslator translatorService, IGitManager gitManagerService, ILogger<HomeController> loggerService, IGitPullCache gitCacheService,
+            IContentPageTitleProvider contentPageTitleProviderService)
         {
             contentFileProvider = contentFileProviderService;
             navMenusProvider = navMenuProviderService;
             translator = translatorService;
-            //contentPageTitleProvider = contentPageTitleProviderService;
             gitManager = gitManagerService;
             logger = loggerService;
             gitCache = gitCacheService;
+            contentPageTitleProvider = contentPageTitleProviderService;
         }
 
         public IActionResult Index(string path)
@@ -58,7 +60,7 @@ namespace SOCVR.Website.Server.Controllers
 
             model.ContentMarkdown = content;
             model.NavMenues = navMenusProvider.GetNavigationMenus(path);
-            //model.PageTitle = contentPageTitleProvider.GetContentPageTitle(path);
+            model.PageTitle = contentPageTitleProvider.GetContentPageTitle(path);
 
             return View(model);
         }
