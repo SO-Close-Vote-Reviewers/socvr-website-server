@@ -73,7 +73,12 @@ namespace SOCVR.Website.Server
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "error",
+                    name: "errorGeneral",
+                    template: "Home/Error",
+                    defaults: new { controller = "Home", action = "Error" });
+
+                routes.MapRoute(
+                    name: "errorWithCode",
                     template: "Home/Errors/{errorCode}",
                     defaults: new { controller = "Home", action = "Errors" });
 
