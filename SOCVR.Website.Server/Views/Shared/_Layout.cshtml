@@ -1,8 +1,20 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.Extensions.Options.IOptions<SOCVR.Website.Server.Configuration> config
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    @{ 
+        var googleSiteValue = config?.Value?.GoogleSiteVerificationValue;
+    }
+
+    @if (!string.IsNullOrWhiteSpace(googleSiteValue))
+    {
+        <meta name="google-site-verification" content="@googleSiteValue" />
+    }
+
     @{
         var title = "SOCVR";
         var titleViewData = (string)ViewData["Title"];

@@ -15,5 +15,6 @@ namespace SOCVR.Website.Server
         public string GitBranch { get; set; }
         public string CloneDir { get; set; }
         public int GitPullCacheSeconds { get; set; }
+        public string GoogleSiteVerificationValue { get; set; }
     }
 }
