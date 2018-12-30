@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    @{ 
+    @{
         var googleSiteValue = config?.Value?.GoogleSiteVerificationValue;
     }
 
@@ -28,21 +28,13 @@
 
     <link rel="shortcut icon" href="~/favicon.ico" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/main.css" />
+
+    @if (SnippetFactory.Exists)
+    {
+        @Html.Raw(SnippetFactory.GetJavaScriptSnippet().FullScript)
+    }
 </head>
 <body>
     @RenderBody()
-
-    <script type="text/javascript">
-        var _paq = _paq || [];
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function () {
-            var u = "https://analytics.mooggaming.net/";
-            _paq.push(['setTrackerUrl', u + 'piwik.php']);
-            _paq.push(['setSiteId', '4']);
-            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-            g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'piwik.js'; s.parentNode.insertBefore(g, s);
-        })();
-    </script>
 </body>
 </html>

@@ -57,6 +57,8 @@ namespace SOCVR.Website.Server
                     o.InstrumentationKey = Configuration["AppInsights:InstrumentationKey"];
                 });
             }
+
+            services.AddTransient<IJavaScriptSnippetFactory, JavaScriptSnippetFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
