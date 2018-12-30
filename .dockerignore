@@ -1,0 +1,6 @@
+.dockerignore
+.vs
+SOCVR.Website.Server/bin
+SOCVR.Website.Server/obj
+.git
+.vscode

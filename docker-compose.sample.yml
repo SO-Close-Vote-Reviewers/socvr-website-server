@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  app:
+    image: "<image name>"
+    environment: 
+      AppInsights__Enabled: "false"
+      AppInsights__DeveloperMode: "true"
+      AppInsights__AdaptiveSampling: "false"
+      AppInsights__InstrumentationKey: "<what you get from Azure, if you want>"
+      Configuration__DefaultMarkdownFileName: "index.md"
+      Configuration__ContentPageFilesFolder: "pages"
+      Configuration__StyleFilesFolder: "styles"
+      Configuration__NavigationDataFileName: "_nav.csv"
+      Configuration__GitRepositoryUrl: "https://github.com/SO-Close-Vote-Reviewers/socvr-website-content.git"
+      Configuration__GitBranch: "master"
+      Configuration__CloneDir: "/tmp/repo"
+      Configuration__GitPullCacheSeconds: "15"
+    ports: 
+      - "80:80"
