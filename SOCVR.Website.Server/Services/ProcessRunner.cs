@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.ApplicationInsights;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,6 +9,13 @@ namespace SOCVR.Website.Server.Services
 {
     public class ProcessRunner : IProcessRunner
     {
+        private readonly TelemetryClient telemetryClient;
+
+        public ProcessRunner(TelemetryClient telemetryClient = null)
+        {
+            this.telemetryClient = telemetryClient;
+        }
+
         public int Run(string program, string arguments)
         {
             return Run(program, arguments, null);
@@ -25,10 +33,19 @@ namespace SOCVR.Website.Server.Services
                 info.WorkingDirectory = workingDirectory;
             }
 
-            var process = Process.Start(info);
-            process.WaitForExit();
+            var processExitCode = Dependency.RunDependency(
+                telemetryClient,
+                "System Process",
+                program,
+                arguments,
+                () =>
+                {
+                    var process = Process.Start(info);
+                    process.WaitForExit();
+                    return process.ExitCode;
+                });
 
-            return process.ExitCode;
+            return processExitCode;
         }
     }
 }

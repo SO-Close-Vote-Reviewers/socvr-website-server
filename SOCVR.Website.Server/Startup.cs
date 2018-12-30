@@ -14,18 +14,12 @@ namespace SOCVR.Website.Server
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddEnvironmentVariables("App_")
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -34,8 +28,7 @@ namespace SOCVR.Website.Server
             services.AddMvc();
             services.AddResponseCompression();
 
-            services.AddOptions();
-            services.Configure<Configuration>(Configuration);
+            services.Configure<Configuration>(Configuration.GetSection(nameof(Configuration)));
 
             services.AddTransient<IContentFilePathSplitter, ContentFilePathSplitter>();
             services.AddTransient<IContentFilePathTranslator, ContentFilePathTranslator>();
@@ -51,14 +44,31 @@ namespace SOCVR.Website.Server
             services.AddSingleton<IGitPullCache, GitPullCache>();
 
             services.AddMemoryCache();
+
+            // app insights
+            if (Configuration.GetValue<bool>("AppInsights:Enabled"))
+            {
+                services.AddApplicationInsightsTelemetry(o =>
+                {
+                    o.ApplicationVersion = Configuration["Meta:AppVersion"] ?? "";
+                    o.DeveloperMode = Configuration.GetValue<bool?>("AppInsights:DeveloperMode").GetValueOrDefault(false);
+                    o.EnableAdaptiveSampling = Configuration.GetValue<bool?>("AppInsights:AdaptiveSampling").GetValueOrDefault(false);
+                    o.EnableQuickPulseMetricStream = true;
+                    o.InstrumentationKey = Configuration["AppInsights:InstrumentationKey"];
+                });
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IGitManager gitManager)
         {
-            var loggingLevel = Configuration.GetValue<LogLevel>("LoggingLevel");
-            loggerFactory.AddConsole(loggingLevel);
-            loggerFactory.AddDebug();
+            // do the first pull here at startup
+            if (!gitManager.DoesRepositoryExist())
+            {
+                gitManager.Clone();
+            }
+
+            gitManager.Pull();
 
             if (env.IsDevelopment())
             {
