@@ -24,6 +24,7 @@ namespace SOCVR.Website.Server.Services
     {
         MarkdownFile,
         NavigationDataFile,
-        StylesFile
+        StylesFile,
+        ImageFile
     }
 }
