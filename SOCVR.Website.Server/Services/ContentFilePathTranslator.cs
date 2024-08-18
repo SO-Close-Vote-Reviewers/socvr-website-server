@@ -27,6 +27,8 @@ namespace SOCVR.Website.Server.Services
                     return TranslatePath_NavigationDataFile(path);
                 case ContentFilePathType.StylesFile:
                     return TranslatePath_StylesFile(path);
+                case ContentFilePathType.ImageFile:
+                    return TranslatePath_ImageFile(path);
                 default:
                     throw new ArgumentException("Unknown content file path type");
             }
@@ -64,6 +66,13 @@ namespace SOCVR.Website.Server.Services
         {
             var fixedInputPath = inputPath.Replace('/', Path.DirectorySeparatorChar);
             var fullPath = Path.Combine(config.CloneDir, config.StyleFilesFolder, fixedInputPath);
+            return fullPath;
+        }
+
+        private string TranslatePath_ImageFile(string inputPath)
+        {
+            var fixedInputPath = inputPath.Replace('/', Path.DirectorySeparatorChar);
+            var fullPath = Path.Combine(config.CloneDir, "images", fixedInputPath);
             return fullPath;
         }
     }

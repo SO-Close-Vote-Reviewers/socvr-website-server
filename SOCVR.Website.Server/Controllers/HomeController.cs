@@ -8,6 +8,7 @@ using SOCVR.Website.Server.Services;
 using SOCVR.Website.Server.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
+using System.IO;
 
 namespace SOCVR.Website.Server.Controllers
 {
@@ -84,6 +85,30 @@ namespace SOCVR.Website.Server.Controllers
             }
 
             return File(fileBytes, "text/css");
+        }
+
+        public IActionResult Image(string path)
+        {
+            if (!contentFileProvider.TryGetContentFileBytes(path, ContentFilePathType.ImageFile, out byte[] fileBytes))
+            {
+                logger.LogWarning($"image file '{path}' was not found");
+                return NotFound();
+            }
+
+            string mimeType;
+            switch (Path.GetExtension(path))
+            {
+                case ".png":
+                    mimeType = "image/png";
+                    break;
+                case ".gif":
+                    mimeType = "image/gif";
+                    break;
+                default:
+                    throw new Exception("Unsupported image mime type");
+            }
+
+            return File(fileBytes, mimeType);
         }
 
         public IActionResult Error()
